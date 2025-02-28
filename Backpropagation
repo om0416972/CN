@@ -1,0 +1,141 @@
+import numpy as np
+
+# Sigmoid activation function and its derivative
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def sigmoid_derivative(x):
+    return x * (1 - x)
+
+# Inputs
+x1 = 0.05
+x2 = 0.10
+
+# Weights (input to hidden layer)
+w1, w2 = 0.15, 0.20  # Weights for hidden layer neuron 1
+w3, w4 = 0.25, 0.30  # Weights for hidden layer neuron 2
+
+# Weights (hidden to output layer)
+w5, w6 = 0.4, 0.45  # Weights for output neuron 1
+w7, w8 = 0.50, 0.55  # Weights for output neuron 2
+
+# Biases
+b1, b2 = 0.35, 0.60
+
+# Forward pass - Hidden layer
+z1 = x1 * w1 + x2 * w2 + b1  # Input to hidden neuron 1
+z2 = x1 * w3 + x2 * w4 + b1  # Input to hidden neuron 2
+
+a1 = sigmoid(z1)  # Activation of hidden neuron 1
+a2 = sigmoid(z2)  # Activation of hidden neuron 2
+
+# Forward pass - Output layer
+z3 = a1 * w5 + a2 * w6 + b2 # Input to output neuron 1
+z4 = a1 * w7 + a2 * w8 + b2 # Input to output neuron 2
+
+a3 = sigmoid(z3)  # Activation of output neuron 1
+a4 = sigmoid(z4)  # Activation of output neuron 2
+
+# Print the output
+print("Output from neural network:")
+print("Output neuron 1:", a3)
+print("Output neuron 2:", a4)
+
+# Target outputs
+target = np.array([0.01, 0.99])
+
+# Predicted outputs
+predicted = np.array([a3, a4])
+
+# Calculate total error (Mean Squared Error)
+total_error = 0.5 * np.sum((target - predicted) ** 2)
+print("\nTotal Error (Squared Error):")
+print(total_error)
+
+# Backpropagation to compute gradient with respect to w5
+
+delta_1 = -(target[0] - a3)
+
+dw5 = delta_1 * a3 * (1 - a3) * a1  # a1 is the activation of the hidden neuron 1
+
+print("\nGradient of Total Error with respect to w5:")
+print(dw5)
+
+# Backpropagation to compute gradient with respect to w6
+
+delta_2 = -(target[0] - a3)
+dw6 = delta_2 * a3 * (1 - a3) * a2  # a1 is the activation of the hidden neuron 2
+print("\nGradient of Total Error with respect to w6:")
+print(dw6)
+
+# Backpropagation to compute gradient with respect to w7
+delta_3 = -(target[1] - a4)
+dw7 = delta_3 * a4 * (1 - a4) * a1  # a1 is the activation of the hidden neuron 1
+print("\nGradient of Total Error with respect to w7:")
+print(dw7)
+
+# Backpropagation to compute gradient with respect to w8
+delta_4 = -(target[1] - a4)
+dw8 = delta_4 * a4 * (1 - a4) * a2  # a1 is the activation of the hidden neuron 2
+print("\nGradient of Total Error with respect to w8:")
+print(dw8)
+
+# Now, we can update weight w5 with a learning rate of 0.5
+learning_rate = 0.5
+w5 -= dw5 * learning_rate  # Update w5
+w6 -= dw6 * learning_rate
+w7 -= dw7 * learning_rate
+w8 -= dw8 * learning_rate
+# Print updated weights
+print("\nUpdated w5:")
+print(w5)
+print("\nUpdated w6:")
+print(w6)
+print("\nUpdated w7:")
+print(w7)
+print("\nUpdated w8:")
+print(w8)
+
+# Backpropagation to compute gradient with respect to w1
+
+total_error= (-(target[0]-a3))*(a3*(1 - a3))*w5+(-(target[1]-a4))*(a4*(1 - a4))*w6
+dw1 = total_error* a1 * (1 - a1) * x1
+
+
+print("\nGradient of Total Error with respect to w1:")
+print(dw1)
+print(total_error)
+# Backpropagation to compute gradient with respect to w2
+
+total_error2= (-(target[0]-a3))*(a3*(1 - a3))*w7+(-(target[1]-a4))*(a4*(1 - a4))*w8
+dw2 = total_error2 * a1 * (1 - a1) * x2
+print("\nGradient of Total Error with respect to w2:")
+print(dw2)
+
+# Backpropagation to compute gradient with respect to w3
+
+dw3 = totalE_3 * a3 * (1 - a3) * x1
+print("\nGradient of Total Error with respect to w3:")
+print(dw3)
+
+# Backpropagation to compute gradient with respect to w4
+
+dw4 = totalE_4 * a3 * (1 - a3) * x2
+print("\nGradient of Total Error with respect to w4:")
+print(dw4)
+
+# Now, we can update weight w5 with a learning rate of 0.5
+learning_rate = 0.5
+w1 -= dw1 * learning_rate
+w3 -= dw2 * learning_rate
+w3 -= dw3 * learning_rate
+w4 -= dw4 * learning_rate
+# Print updated weights
+print("\nUpdated w1:")
+print(w5)
+print("\nUpdated w2:")
+print(w6)
+print("\nUpdated w3:")
+print(w7)
+print("\nUpdated w4:")
+print(w8)
