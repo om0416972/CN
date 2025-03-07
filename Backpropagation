@@ -35,7 +35,8 @@ z4 = a1 * w7 + a2 * w8 + b2 # Input to output neuron 2
 
 a3 = sigmoid(z3)  # Activation of output neuron 1
 a4 = sigmoid(z4)  # Activation of output neuron 2
-
+print("hidden neuron 1:", a1)
+print("hidden neuron 2:", a2)
 # Print the output
 print("Output from neural network:")
 print("Output neuron 1:", a3)
@@ -98,44 +99,45 @@ print(w8)
 
 # Backpropagation to compute gradient with respect to w1
 
-total_error= (-(target[0]-a3))*(a3*(1 - a3))*w5+(-(target[1]-a4))*(a4*(1 - a4))*w6
-dw1 = total_error* a1 * (1 - a1) * x1
+total_error= (-(target[0]-a3))*(a3*(1 - a3))*0.4+(-(target[1]-a4))*(a4*(1 - a4))*0.50
+dw1 = total_error* a2 * (1 - a2) * x1
 
 
 print("\nGradient of Total Error with respect to w1:")
 print(dw1)
-print(total_error)
+
 # Backpropagation to compute gradient with respect to w2
 
-total_error2= (-(target[0]-a3))*(a3*(1 - a3))*w7+(-(target[1]-a4))*(a4*(1 - a4))*w8
+total_error2= (-(target[0]-a3))*(a3*(1 - a3))*0.4+(-(target[1]-a4))*(a4*(1 - a4))*0.50
 dw2 = total_error2 * a1 * (1 - a1) * x2
 print("\nGradient of Total Error with respect to w2:")
 print(dw2)
 
 # Backpropagation to compute gradient with respect to w3
 
-dw3 = totalE_3 * a3 * (1 - a3) * x1
+total_error3= (-(target[0]-a3))*(a3*(1 - a3))*0.45+(-(target[1]-a4))*(a4*(1 - a4))*0.55
+dw3 = total_error3 * a2 * (1 - a2) * x1
 print("\nGradient of Total Error with respect to w3:")
 print(dw3)
 
 # Backpropagation to compute gradient with respect to w4
-
-dw4 = totalE_4 * a3 * (1 - a3) * x2
+total_error4= (-(target[0]-a3))*(a3*(1 - a3))*0.45+(-(target[1]-a4))*(a4*(1 - a4))*0.55
+dw4 = total_error4 * a2 * (1 - a2) * x2
 print("\nGradient of Total Error with respect to w4:")
 print(dw4)
 
-# Now, we can update weight w5 with a learning rate of 0.5
+
 learning_rate = 0.5
 w1 -= dw1 * learning_rate
-w3 -= dw2 * learning_rate
+w2 -= dw2 * learning_rate
 w3 -= dw3 * learning_rate
 w4 -= dw4 * learning_rate
 # Print updated weights
 print("\nUpdated w1:")
-print(w5)
+print(w1)
 print("\nUpdated w2:")
-print(w6)
+print(w2)
 print("\nUpdated w3:")
-print(w7)
+print(w3)
 print("\nUpdated w4:")
-print(w8)
+print(w4)
