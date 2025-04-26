@@ -1,0 +1,57 @@
+import math
+import random
+
+# 1. Vocabulary and one-hot encoding
+text = ["I", "love", "deep", "learning"]
+vocab = list(set(text))
+word_to_index = {w: i for i, w in enumerate(vocab)}
+index_to_word = {i: w for w, i in word_to_index.items()}
+
+vocab_size = len(vocab)
+input_seq = ["I", "love", "deep"]
+target_word = "learning"
+
+# One-hot encode
+def one_hot(word):
+    vec = [0] * vocab_size
+    vec[word_to_index[word]] = 1
+    return vec
+
+inputs = [one_hot(w) for w in input_seq]
+target = one_hot(target_word)
+
+# 2. RNN Parameters
+hidden_size = 5
+# Random weights
+Wx = [[random.uniform(-1, 1) for _ in range(vocab_size)] for _ in range(hidden_size)]
+Wh = [[random.uniform(-1, 1) for _ in range(hidden_size)] for _ in range(hidden_size)]
+Wy = [[random.uniform(-1, 1) for _ in range(hidden_size)] for _ in range(vocab_size)]
+
+# Activation functions
+def tanh(x):
+    return [math.tanh(i) for i in x]
+
+def softmax(x):
+    e_x = [math.exp(i) for i in x]
+    sum_ex = sum(e_x)
+    return [i / sum_ex for i in e_x]
+
+def multiplication(mat, vec):
+    return [sum(m[i] * vec[i] for i in range(len(vec))) for m in mat]
+
+def add(vec1, vec2):
+    return [v1 + v2 for v1, v2 in zip(vec1, vec2)]
+
+# 3. RNN Forward Pass
+h = [0] * hidden_size
+for x in inputs:
+    h = tanh(add(multiplication(Wx, x), multiplication(Wh, h)))
+
+y = multiplication(Wy, h)
+output = softmax(y)
+
+# 4. Prediction
+predicted_index = output.index(max(output))
+predicted_word = index_to_word[predicted_index]
+
+print("Predicted 4th word:", predicted_word)
